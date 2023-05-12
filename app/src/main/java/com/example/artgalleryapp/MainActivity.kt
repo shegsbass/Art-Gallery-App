@@ -3,9 +3,11 @@ package com.example.artgalleryapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +15,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -25,7 +31,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.artgalleryapp.ui.theme.ArtGalleryAppTheme
@@ -58,6 +63,7 @@ fun ArtGalleryLayout(){
     ) {
         GalleryWall()
         GalleryDescription()
+        GalleryController()
     }
 
 
@@ -86,8 +92,8 @@ fun GalleryDescription(modifier: Modifier = Modifier){
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .size(150.dp),
-        color = Color.LightGray
+            .size(120.dp),
+        color = Color(0xFFFFDAD6)
     ){
         Column(modifier = Modifier
             .padding(16.dp),
@@ -99,16 +105,67 @@ fun GalleryDescription(modifier: Modifier = Modifier){
             )
 
             Row() {
-                Text(text = stringResource(R.string.artist_name),
+                Text(stringResource(R.string.artist_name),
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier
                 )
-                Text(text = stringResource(R.string.art_year),
+                Text(stringResource(R.string.art_year),
                     style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Light,
                     modifier = Modifier
                 )
             }
         }
+    }
+}
+
+@Composable
+fun GalleryController(){
+    Spacer(modifier = Modifier.height(40.dp))
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Button(onClick = { /*TODO*/ },
+            enabled = true,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF3E001D),
+                contentColor = Color.White
+            ),
+            elevation = ButtonDefaults.buttonElevation(
+                defaultElevation = 8.dp,
+                pressedElevation = 4.dp
+            ),
+            shape = RoundedCornerShape(16.dp),
+            border = BorderStroke(2.dp, Color(0xFF410002)),
+            contentPadding = PaddingValues(4.dp),
+            modifier = Modifier
+                .width(100.dp)
+                .height(50.dp)
+        ) {
+            Text(stringResource(R.string.prev) )
+        }
+        Spacer(modifier = Modifier.width(40.dp))
+
+        Button(onClick = { /*TODO*/ },
+            enabled = true,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF3E001D),
+                contentColor = Color.White
+            ),
+            elevation = ButtonDefaults.buttonElevation(
+                defaultElevation = 8.dp,
+                pressedElevation = 4.dp
+            ),
+            shape = RoundedCornerShape(16.dp),
+            border = BorderStroke(2.dp, Color(0xFF410002)),
+            contentPadding = PaddingValues(4.dp),
+            modifier = Modifier
+                .width(120.dp)
+                .height(50.dp)
+        ) {
+            Text(stringResource(R.string.next) )
+        }
+
+
     }
 }
 
