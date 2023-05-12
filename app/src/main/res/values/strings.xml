@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Art Gallery App</string>
+    <string name="description_content">Still life of Blue Rose and Other Flowers</string>
+    <string name="artist_name">Shegs Junny</string>
+    <string name="art_year">(2023)</string>
 </resources>
