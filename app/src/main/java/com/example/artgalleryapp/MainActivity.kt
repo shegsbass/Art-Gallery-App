@@ -22,22 +22,23 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ButtonElevation
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -62,14 +63,38 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ArtGalleryLayout(){
-    var nextArt: Int by remember { mutableStateOf(1) }
+    var currentArt: Int by remember { mutableStateOf(0) }
+    var currentDescription by remember { mutableStateOf(0) }
+    var currentArtistName by remember { mutableStateOf(0) }
+    var currentArtDate by remember { mutableStateOf(0) }
 
-    val artResource = when (nextArt){
-        1 -> R.drawable.img1
-        2 -> R.drawable.img2
-        3 -> R.drawable.img3
-        else -> R.drawable.img4
-    }
+    val artResource = listOf(
+        R.drawable.img1,
+        R.drawable.img2,
+        R.drawable.img3,
+        R.drawable.img4
+    )
+
+    val descriptionResource = listOf(
+        R.string.description_content1,
+        R.string.description_content2,
+        R.string.description_content3,
+        R.string.description_content4
+    )
+
+    val artistNameResource = listOf(
+        R.string.artist_name1,
+        R.string.artist_name2,
+        R.string.artist_name3,
+        R.string.artist_name4
+    )
+
+    val artDateResource = listOf(
+        R.string.art_year1,
+        R.string.art_year2,
+        R.string.art_year3,
+        R.string.art_year4
+    )
 
     Column (
         modifier = Modifier
@@ -79,18 +104,62 @@ fun ArtGalleryLayout(){
         verticalArrangement = Arrangement.Center,
     ) {
         GalleryWall(
-            painter = artResource,
+            painter = artResource[currentArt],
             contentDescription = artResource.toString()
         )
-        GalleryDescription()
 
+        Spacer(modifier = Modifier.height(70.dp))
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .size(120.dp),
+            color = Color(0xFFFFDAD6)
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Center,
+            ) {
+
+
+                GalleryDescription(
+                    text = descriptionResource[currentDescription],
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Light,
+                    modifier = Modifier
+                )
+
+                Row() {
+                    GalleryDescription(
+                        text = artistNameResource[currentArtistName],
+                        style = MaterialTheme.typography.titleSmall,
+                        modifier = Modifier
+                    )
+
+                    GalleryDescription(
+                        text = artDateResource[currentArtDate],
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.Light,
+                        modifier = Modifier
+                    )
+                }
+
+            }
+        }
         Spacer(modifier = Modifier.height(40.dp))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
             GalleryController(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    if (currentArt >= 0 && currentDescription >= 0 && currentArtistName >= 0 && currentArtDate >= 0) {
+                        currentArt = if (currentArt == 0) artResource.lastIndex else currentArt - 1
+                        currentDescription = if (currentDescription == 0) descriptionResource.lastIndex else currentDescription - 1
+                        currentArtistName = if (currentArtistName == 0) artistNameResource.lastIndex else currentArtistName - 1
+                        currentArtDate = if (currentArtDate == 0) artDateResource.lastIndex else currentArtDate - 1
+                    }
+                },
                 enabled = true,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF3E001D),
@@ -112,7 +181,11 @@ fun ArtGalleryLayout(){
             Spacer(modifier = Modifier.width(40.dp))
 
             GalleryController(
-                onClick = { nextArt = (1..4).random()},
+                onClick = {
+                    currentArt = (currentArt + 1) % artResource.size
+                    currentDescription = (currentDescription + 1) % descriptionResource.size
+                    currentArtistName = (currentArtistName + 1) % artistNameResource.size
+                    currentArtDate = (currentArt + 1) % artDateResource.size},
                 enabled = true,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF3E001D),
@@ -157,36 +230,17 @@ fun GalleryWall(@DrawableRes painter: Int, contentDescription: String, modifier:
 }
 
 @Composable
-fun GalleryDescription(modifier: Modifier = Modifier){
-    Spacer(modifier = Modifier.height(70.dp))
+fun GalleryDescription(text: Int, style: TextStyle = LocalTextStyle.current,
+                       fontWeight: FontWeight? = null, modifier: Modifier = Modifier){
 
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .size(120.dp),
-        color = Color(0xFFFFDAD6)
-    ){
-        Column(modifier = Modifier
-            .padding(16.dp),
-            verticalArrangement = Arrangement.Center,
-        ) {
-            Text(text = stringResource(R.string.description_content),
-                style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Light,
+
+            Text(
+                text = stringResource(text),
+                style = style,
+                fontWeight = fontWeight,
                 modifier = Modifier
             )
 
-            Row() {
-                Text(stringResource(R.string.artist_name),
-                    style = MaterialTheme.typography.titleSmall,
-                    modifier = Modifier
-                )
-                Text(stringResource(R.string.art_year),
-                    style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Light,
-                    modifier = Modifier
-                )
-            }
-        }
-    }
 }
 
 @Composable

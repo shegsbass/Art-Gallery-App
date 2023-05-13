@@ -1,8 +1,17 @@
 <resources>
     <string name="app_name">Art Gallery App</string>
-    <string name="description_content">Still life of Blue Rose and Other Flowers</string>
-    <string name="artist_name">Shegs Junny</string>
-    <string name="art_year">(2023)</string>
+    <string name="description_content1">This is the Art description for the first Image</string>
+    <string name="description_content2">Here is the Art description for the second Image</string>
+    <string name="description_content3">We have here the Art description for the third Image</string>
+    <string name="description_content4">Lastly, this is the Art description for the forth Image</string>
+    <string name="artist_name1">Shegs Junny</string>
+    <string name="artist_name2">Drey Mike</string>
+    <string name="artist_name3">Vic Mba</string>
+    <string name="artist_name4">Mels Droid</string>
+    <string name="art_year1">(2023)</string>
+    <string name="art_year2">(2022)</string>
+    <string name="art_year3">(2020)</string>
+    <string name="art_year4">(2021)</string>
     <string name="prev">Previous</string>
     <string name="next">Next</string>
 </resources>
